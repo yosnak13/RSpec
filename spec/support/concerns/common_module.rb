@@ -39,7 +39,6 @@ shared_examples 'メールアドレスの形式' do
     end
   end
 end
-
 # [Point.3-12-1]共通化するテストケースを定義します。
 shared_examples '価格の表示' do
   # [Point.3-12-2]呼出し元のモデルを動的に定義します。
