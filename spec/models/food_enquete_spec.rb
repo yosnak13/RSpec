@@ -29,31 +29,31 @@ RSpec.describe FoodEnquete, type: :model do
 
   describe '入力項目の有無' do
     let(:new_enquete) { FoodEnquete.new }
-    context '必須入力であること' do
-      # [Point.3-4-1]itを複数書くことができます。
-      it 'お名前が必須であること' do
-        # [Point.3-4-2]バリデーションエラーが発生することを検証します。
-        expect(new_enquete).not_to be_valid
-        # [Point.3-4-3]必須入力のメッセージが含まれることを検証します。
-        expect(new_enquete.errors[:name]).to include(I18n.t('errors.messages.blank'))
-      end
+      context '必須入力であること' do
+        # [Point.3-4-1]itを複数書くことができます。
+        it 'お名前が必須であること' do
+          # [Point.3-4-2]バリデーションエラーが発生することを検証します。
+          expect(new_enquete).not_to be_valid
+          # [Point.3-4-3]必須入力のメッセージが含まれることを検証します。
+          expect(new_enquete.errors[:name]).to include(I18n.t('errors.messages.blank'))
+        end
 
-      it 'メールアドレスが必須であること' do
+        it 'メールアドレスが必須であること' do
+          expect(new_enquete).not_to be_valid
+          expect(new_enquete.errors[:mail]).to include(I18n.t('errors.messages.blank'))
+        end
+        # [Point.3-4-1]itを複数書くことができます。
+        it '登録できないこと' do
+          # [Point.3-4-4]保存に失敗することを検証します。
+          expect(new_enquete.save).to be_falsey
+        end
+      end
+      context '任意入力であること' do
+      it 'ご意見・ご要望が任意であること' do
         expect(new_enquete).not_to be_valid
-        expect(new_enquete.errors[:mail]).to include(I18n.t('errors.messages.blank'))
-      end
-      # [Point.3-4-1]itを複数書くことができます。
-      it '登録できないこと' do
-        # [Point.3-4-4]保存に失敗することを検証します。
-        expect(new_enquete.save).to be_falsey
+        expect(new_enquete.errors[:request]).not_to include(I18n.t('errors.messages.blank'))
       end
     end
-    context '任意入力であること' do
-    it 'ご意見・ご要望が任意であること' do
-      expect(new_enquete).not_to be_valid
-      expect(new_enquete.errors[:request]).not_to include(I18n.t('errors.messages.blank'))
-    end
-  end
   end
 
   describe '#adult?' do
@@ -118,5 +118,11 @@ RSpec.describe FoodEnquete, type: :model do
         expect(enquete_sato).to be_valid
       end
     end
+  end
+
+  describe '共通メソッド' do
+    # [Point.3-12-3]共通化するテストケースを定義します。
+    it_behaves_like '価格の表示'
+    it_behaves_like '満足度の表示'
   end
 end
